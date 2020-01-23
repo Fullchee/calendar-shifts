@@ -28,7 +28,27 @@ export default class Calendar extends React.Component {
       time: 480
     };
 
-    ApiCalendar.createEventFromNow(eventFromNow)
+    // ApiCalendar.createEventFromNow(eventFromNow)
+    //   .then(result => {
+    //     console.log(result);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+
+    ApiCalendar.createEvent(
+      {
+        start: {
+          dateTime: new Date()
+        },
+        end: {
+          dateTime: new Date()
+        },
+        summary: "Title!!",
+        description: "Description!!"
+      },
+      "primary"
+    )
       .then(result => {
         console.log(result);
       })
