@@ -1,6 +1,7 @@
 import React from "react";
 import ApiCalendar from "react-google-calendar-api";
 import Calendar from "./Calendar";
+import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -27,7 +28,6 @@ export default class Home extends React.Component {
 
   updateSelectedDays = selectedDays => {
     this.setState({ selectedDays });
-    console.log(selectedDays);
   };
 
   createEvent = e => {
@@ -66,6 +66,8 @@ export default class Home extends React.Component {
           sign-out
         </button>
         <button onClick={this.createEvent}>Create event</button>
+        <button onClick={this.createShift}>Create shift</button>
+        <TimeRangePicker></TimeRangePicker>
       </>
     );
   }
