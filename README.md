@@ -22,3 +22,11 @@ Now you're ready to start the app!
 ```bash
 yarn start
 ```
+
+## TODOs
+- create an event with a react calendar UI
+  - create multiple events with a multi select react calendar UI
+- Read google calendar events (search for a specific name)
+  - if it finds it, add some UI change to the React Calendar UI
+- If not logged in, just show the login
+  - or, when you click create event, if not logged in, ask for login

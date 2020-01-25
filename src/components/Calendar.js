@@ -1,73 +1,29 @@
 import React from "react";
-import ApiCalendar from "react-google-calendar-api";
+import DayPicker, { DateUtils } from "react-day-picker";
+import "react-day-picker/lib/style.css";
 
 export default class Calendar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleItemClick = this.handleItemClick.bind(this);
-  }
-
-  listEvents = () => {
-    if (ApiCalendar.sign)
-      ApiCalendar.listUpcomingEvents(10).then(({ result }) => {
-        console.log(result.items);
-      });
-  };
-
-  handleItemClick = (event, name) => {
-    if (name === "sign-in") {
-      ApiCalendar.handleAuthClick();
-    } else if (name === "sign-out") {
-      ApiCalendar.handleSignoutClick();
+  handleDayClick = (day, { selected }) => {
+    const { selectedDays } = this.props;
+    if (selected) {
+      const selectedIndex = selectedDays.findIndex(selectedDay =>
+        DateUtils.isSameDay(selectedDay, day)
+      );
+      selectedDays.splice(selectedIndex, 1);
+    } else {
+      selectedDays.push(day);
     }
-  };
-
-  createEvent = e => {
-    const eventFromNow = {
-      summary: "Poc Dev From Now",
-      time: 480
-    };
-
-    // ApiCalendar.createEventFromNow(eventFromNow)
-    //   .then(result => {
-    //     console.log(result);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-
-    ApiCalendar.createEvent(
-      {
-        start: {
-          dateTime: new Date()
-        },
-        end: {
-          dateTime: new Date()
-        },
-        summary: "Title!!",
-        description: "Description!!"
-      },
-      "primary"
-    )
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.props.onUpdate(selectedDays);
   };
 
   render() {
     return (
-      <>
-        <button onClick={e => this.handleItemClick(e, "sign-in")}>
-          sign-in
-        </button>
-        <button onClick={e => this.handleItemClick(e, "sign-out")}>
-          sign-out
-        </button>
-        <button onClick={this.createEvent}>Create event</button>
-      </>
+      <div>
+        <DayPicker
+          selectedDays={this.props.selectedDays}
+          onDayClick={this.handleDayClick}
+        />
+      </div>
     );
   }
 }
