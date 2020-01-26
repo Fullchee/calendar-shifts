@@ -4,6 +4,14 @@ Quickly create reoccurring calendar events.
 
 When you get your next month's schedule and you need to quickly add it to your calendar.
 
+
+## How to use
+1. Login
+2. Select the days you have that shift.
+3. Create a title and a description for your calendar events
+4. Click "Add shifts" to add a shift!
+
+
 ## Install
 
 ### Dependencies
@@ -30,7 +38,6 @@ yarn start
 
 ## TODOs
 
-- Figure out how to get the GCal API to work on Netlify
 - Front page: show login button (state: isLoggedIn?)
   - or the calendar view if already logged in
   - add a sign out button if not signed in

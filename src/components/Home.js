@@ -16,7 +16,9 @@ export default class Home extends React.Component {
       selectedDays: [],
       shifts: defaultShifts,
       selectedShift: null,
-      showTimeRange: false
+      showTimeRange: false,
+      title: "",
+      description: ""
     };
   }
 
@@ -50,8 +52,8 @@ export default class Home extends React.Component {
           end: {
             dateTime: this.combineDateAndTime(day, end)
           },
-          summary: "Title!!",
-          description: "Description!!"
+          summary: this.state.title,
+          description: this.state.description
         },
         "primary"
       )
@@ -113,9 +115,12 @@ export default class Home extends React.Component {
    */
   createShift = time => {
     return () => {
-      // TODO: keep it sorted
-      // TODO: prevent duplicates
-      this.setState({ shifts: [...this.state.shifts, time] });
+      if (this.state.shifts.find(shift => shift === time)) {
+        toast(`The ${time} shift already exists`);
+      } else {
+        this.setState({ shifts: [...this.state.shifts, time] });
+        toast(`Created the new shift: ${time}`);
+      }
     };
   };
   render() {
@@ -131,6 +136,25 @@ export default class Home extends React.Component {
           </button>
         </div>
         <div>
+          <label>
+            Event Title
+            <input
+              type="text"
+              name="title"
+              onChange={e => this.setState({ title: e.target.value })}
+            ></input>
+          </label>
+        </div>
+        <div>
+          <label>
+            Event Description
+            <textarea
+              name="Title"
+              onChange={e => this.setState({ description: e.target.value })}
+            ></textarea>
+          </label>
+        </div>
+        <div>
           <Dropdown
             title="Select shift"
             list={this.state.shifts}
@@ -139,7 +163,7 @@ export default class Home extends React.Component {
             }
           ></Dropdown>
           <button className="btn" onClick={this.showShiftEditor}>
-            Create a shift
+            Manage Shifts
           </button>
         </div>
         <ShiftEditor
