@@ -33,29 +33,76 @@ export default class Home extends React.Component {
 
   createEvent = () => {
     if (!this.state.selectedShift) {
-      toast("Please select a shift first!");
+      toast("Make sure to select a shift");
       return;
     }
-    ApiCalendar.createEvent(
-      {
-        start: {
-          dateTime: new Date()
+    if (this.state.selectedDays.length === 0) {
+      toast("Make sure to select days on the calendar");
+      return;
+    }
+    const [start, end] = this.state.selectedShift;
+    this.state.selectedDays.forEach(day => {
+      ApiCalendar.createEvent(
+        {
+          start: {
+            dateTime: this.combineDateAndTime(day, start)
+          },
+          end: {
+            dateTime: this.combineDateAndTime(day, end)
+          },
+          summary: "Title!!",
+          description: "Description!!"
         },
-        end: {
-          dateTime: new Date()
-        },
-        summary: "Title!!",
-        description: "Description!!"
-      },
-      "primary"
-    )
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        "primary"
+      )
+        .then(result => {
+          console.log(result);
+          toast(
+            "Created calendar event on " + this.formatDate(this.formatDate(day))
+          );
+        })
+        .catch(error => {
+          console.log(error);
+          toast("Failed to create event on " + this.formatDate(day));
+        });
+    });
   };
+
+  /**
+   * @param {Date} date
+   * @param {"hh:mm"} time
+   * @returns {Date}
+   */
+  combineDateAndTime = (date, time) => {
+    const [hh, mm] = time.split(":").map(Number);
+    let newDate = new Date(date);
+    // Calendar: gets the day at noon
+    newDate.setHours(newDate.getHours() - 12 + hh);
+    newDate.setMinutes(newDate.getMinutes() + mm);
+    return newDate;
+  };
+
+  formatDate = timestamp => {
+    const date = new Date(timestamp);
+    var months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "June",
+      "July",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    return (
+      months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear()
+    );
+  };
+
   showShiftEditor = () => {
     this.setState({ showTimeRange: true });
   };
@@ -101,7 +148,7 @@ export default class Home extends React.Component {
           onClose={() => this.setState({ showTimeRange: false })}
         ></ShiftEditor>
         <button className="btn" onClick={this.createEvent}>
-          Create event
+          Add shifts!
         </button>
       </>
     );

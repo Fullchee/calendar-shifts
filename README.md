@@ -30,6 +30,10 @@ yarn start
 
 ## TODOs
 
+- Figure out how to get the GCal API to work on Netlify
+- Front page: show login button (state: isLoggedIn?)
+  - or the calendar view if already logged in
+  - add a sign out button if not signed in
 - create an event with a react calendar UI
 - Read google calendar events (search for a specific name)
   - if it finds it, add some UI change to the React Calendar UI
