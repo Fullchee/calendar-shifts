@@ -27,18 +27,14 @@ export default class Home extends React.Component {
       });
   };
 
-  handleItemClick = (event, name) => {
-    if (name === "sign-in") {
-    }
-  };
-
   updateSelectedDays = selectedDays => {
     this.setState({ selectedDays });
   };
 
   createEvent = () => {
     if (!this.state.selectedShift) {
-      toast("Please create a toast first!");
+      toast("Please select a shift first!");
+      return;
     }
     ApiCalendar.createEvent(
       {
@@ -83,7 +79,9 @@ export default class Home extends React.Component {
           onUpdate={this.updateSelectedDays}
         ></Calendar>
         <div>
-          <button onClick={() => ApiCalendar.handleAuthClick()}>Sign in</button>
+          <button className="btn" onClick={() => ApiCalendar.handleAuthClick()}>
+            Sign in
+          </button>
         </div>
         <div>
           <Dropdown
@@ -93,14 +91,18 @@ export default class Home extends React.Component {
               this.setState({ selectedShift: JSON.parse(e.target.value) })
             }
           ></Dropdown>
-          <button onClick={this.showShiftEditor}>Create a shift</button>
+          <button className="btn" onClick={this.showShiftEditor}>
+            Create a shift
+          </button>
         </div>
         <ShiftEditor
           isVisible={this.state.showTimeRange}
           onCreate={this.createShift}
           onClose={() => this.setState({ showTimeRange: false })}
         ></ShiftEditor>
-        <button onClick={this.createEvent}>Create event</button>
+        <button className="btn" onClick={this.createEvent}>
+          Create event
+        </button>
       </>
     );
   }

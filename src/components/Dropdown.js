@@ -26,9 +26,7 @@ export default class Dropdown extends React.Component {
         id="shift-select"
         onChange={this.props.onChange}
       >
-        <option disabled value="">
-          --Shifts--
-        </option>
+        <option value="">--Shifts--</option>
         {this.props.list.map(shift => {
           const time = JSON.stringify(shift);
           return (
