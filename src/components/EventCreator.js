@@ -5,6 +5,7 @@ import ShiftEditor from "./ShiftEditor";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dropdown from "./Dropdown";
+import formatShift from "./formatShift";
 
 // import "react-toastify/dist/ReactToastify.min.css";
 import defaultShifts from "./defaultShifts";
@@ -115,11 +116,15 @@ export default class EventCreator extends React.Component {
    */
   createShift = time => {
     return () => {
-      if (this.state.shifts.find(shift => shift === time)) {
-        toast(`The ${time} shift already exists`);
+      if (
+        this.state.shifts.find(
+          shift => shift[0] === time[0] && shift[1] === time[1]
+        )
+      ) {
+        toast(`The ${formatShift(time)} shift already exists`);
       } else {
         this.setState({ shifts: [...this.state.shifts, time] });
-        toast(`Created the new shift: ${time}`);
+        toast(`Created the new shift: ${formatShift(time)}`);
       }
     };
   };

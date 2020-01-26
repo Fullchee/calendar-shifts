@@ -38,15 +38,8 @@ yarn start
 
 ## TODOs
 
-- Front page: show login button (state: isLoggedIn?)
-  - or the calendar view if already logged in
-  - add a sign out button if not signed in
-- create an event with a react calendar UI
 - Read google calendar events (search for a specific name)
   - if it finds it, add some UI change to the React Calendar UI
-- If not logged in, just show the login
-  - or, when you click create event, if not logged in, ask for login
--
 
 ## User stories
 

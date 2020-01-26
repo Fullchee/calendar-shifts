@@ -10,7 +10,6 @@ export default class Home extends React.Component {
     };
     ApiCalendar.onLoad(() => {
       ApiCalendar.listenSign(this.signUpdate);
-      debugger;
       this.setState({ sign: ApiCalendar.sign });
     });
   }
@@ -20,14 +19,12 @@ export default class Home extends React.Component {
    * Called when the user logs in or logs out
    */
   signUpdate = sign => {
-    debugger;
     this.setState({ sign });
   };
   render() {
     if (this.state.sign) {
       return <EventCreator></EventCreator>;
     } else {
-      debugger;
       return (
         <div>
           <div className="description">
