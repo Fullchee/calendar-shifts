@@ -43,6 +43,4 @@ yarn start
 
 ## User stories
 
-- edit the name/times of a shift
-- delete a shift
 - dropdown: default value?

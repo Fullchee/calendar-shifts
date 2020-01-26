@@ -114,17 +114,44 @@ export default class EventCreator extends React.Component {
    * Currying: time is provided by the bottom TimePicker component
    * @param {["HH:MM", "HH:MM"]} time
    */
-  createShift = time => {
+  createShift = selectedShift => {
     return () => {
       if (
         this.state.shifts.find(
-          shift => shift[0] === time[0] && shift[1] === time[1]
+          shift =>
+            shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
         )
       ) {
-        toast(`The ${formatShift(time)} shift already exists`);
+        toast(`The ${formatShift(selectedShift)} shift already exists`);
       } else {
-        this.setState({ shifts: [...this.state.shifts, time] });
-        toast(`Created the new shift: ${formatShift(time)}`);
+        this.setState({
+          shifts: [...this.state.shifts, selectedShift],
+          selectedShift: selectedShift
+        });
+        toast(`Created the new shift: ${formatShift(selectedShift)}`);
+      }
+    };
+  };
+  deleteShift = selectedShift => {
+    return () => {
+      const index = this.state.shifts.findIndex(
+        shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
+      );
+      debugger;
+      if (index !== -1) {
+        this.setState({
+          shifts: [
+            ...this.state.shifts.slice(0, index),
+            ...this.state.shifts.slice(index + 1)
+          ]
+        });
+        toast(`Deleted shift ${formatShift(selectedShift)}`);
+      } else {
+        toast(
+          `Shift ${formatShift(
+            selectedShift
+          )} not found! It might already be deleted.`
+        );
       }
     };
   };
@@ -169,10 +196,12 @@ export default class EventCreator extends React.Component {
         <ShiftEditor
           isVisible={this.state.showTimeRange}
           onCreate={this.createShift}
+          onDelete={this.deleteShift}
           onClose={() => this.setState({ showTimeRange: false })}
+          shifts={this.state.shifts}
         ></ShiftEditor>
         <button className="btn" onClick={this.createEvent}>
-          Add shifts!
+          Create calendar events!
         </button>
         <div>
           <button
