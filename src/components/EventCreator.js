@@ -162,47 +162,49 @@ export default class EventCreator extends React.Component {
           selectedDays={this.state.selectedDays}
           onUpdate={this.updateSelectedDays}
         ></Calendar>
-        <div>
-          <label>
-            Event Title
-            <input
-              type="text"
-              name="title"
-              onChange={e => this.setState({ title: e.target.value })}
-            ></input>
-          </label>
-        </div>
-        <div>
-          <label>
-            Event Description
-            <textarea
-              name="Title"
-              onChange={e => this.setState({ description: e.target.value })}
-            ></textarea>
-          </label>
-        </div>
-        <div>
-          <Dropdown
-            title="Select shift"
-            list={this.state.shifts}
-            onChange={e =>
-              this.setState({ selectedShift: JSON.parse(e.target.value) })
-            }
-          ></Dropdown>
-          <button className="btn" onClick={this.showShiftEditor}>
-            Manage Shifts
+        <div className="user-input">
+          <div>
+            <label>
+              Event Title
+              <input
+                type="text"
+                name="title"
+                onChange={e => this.setState({ title: e.target.value })}
+              ></input>
+            </label>
+          </div>
+          <div>
+            <label>
+              Event Description
+              <textarea
+                name="Title"
+                onChange={e => this.setState({ description: e.target.value })}
+              ></textarea>
+            </label>
+          </div>
+          <div>
+            <Dropdown
+              title="Select shift"
+              list={this.state.shifts}
+              onChange={e =>
+                this.setState({ selectedShift: JSON.parse(e.target.value) })
+              }
+            ></Dropdown>
+            <button className="btn" onClick={this.showShiftEditor}>
+              Manage Shifts
+            </button>
+          </div>
+          <ShiftEditor
+            isVisible={this.state.showTimeRange}
+            onCreate={this.createShift}
+            onDelete={this.deleteShift}
+            onClose={() => this.setState({ showTimeRange: false })}
+            shifts={this.state.shifts}
+          ></ShiftEditor>
+          <button className="btn" onClick={this.createEvent}>
+            Create calendar events!
           </button>
         </div>
-        <ShiftEditor
-          isVisible={this.state.showTimeRange}
-          onCreate={this.createShift}
-          onDelete={this.deleteShift}
-          onClose={() => this.setState({ showTimeRange: false })}
-          shifts={this.state.shifts}
-        ></ShiftEditor>
-        <button className="btn" onClick={this.createEvent}>
-          Create calendar events!
-        </button>
         <div>
           <button
             className="btn"
