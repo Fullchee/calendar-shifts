@@ -134,6 +134,7 @@ export default class EventCreator extends React.Component {
   };
   deleteShift = selectedShift => {
     return () => {
+      debugger;
       const index = this.state.shifts.findIndex(
         shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
       );

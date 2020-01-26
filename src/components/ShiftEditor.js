@@ -1,6 +1,9 @@
 import React from "react";
 import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
 import Dropdown from "./Dropdown";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import formatShift from "./formatShift";
 
 export default class ShiftEditor extends React.Component {
   constructor(props) {
@@ -11,6 +14,26 @@ export default class ShiftEditor extends React.Component {
     };
   }
   onChange = shift => this.setState({ shift });
+
+  confirm = () => {
+    confirmAlert({
+      title: `Delete shift "${formatShift(this.state.shift)}"?`,
+      message: "",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            debugger;
+            this.props.onDelete(this.state.shift)();
+          }
+        },
+        {
+          label: "No",
+          onClick: () => alert("Click No")
+        }
+      ]
+    });
+  };
 
   render() {
     if (!this.props.isVisible) {
@@ -30,9 +53,7 @@ export default class ShiftEditor extends React.Component {
           <button onClick={this.props.onCreate(this.state.shift)}>
             Create
           </button>
-          <button onClick={this.props.onDelete(this.state.shift)}>
-            Delete
-          </button>
+          <button onClick={this.confirm}>Delete</button>
           <button onClick={this.props.onClose}>Close</button>
         </div>
       </div>
