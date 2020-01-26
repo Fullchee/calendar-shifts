@@ -19,7 +19,7 @@ yarn install
 Ask Fullchee for the key to decrypt git-crypt. Then run
 
 ```bash
-git-crypt unlock `path to file`
+git-crypt unlock `path to key file`
 ```
 
 Now you're ready to start the app!
@@ -29,7 +29,8 @@ yarn start
 ```
 
 ## TODOs
-- Create a UI to 
+
+- Create a UI component for creating a time range
 - create an event with a react calendar UI
 - Read google calendar events (search for a specific name)
   - if it finds it, add some UI change to the React Calendar UI

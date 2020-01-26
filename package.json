@@ -11,7 +11,8 @@
     "react-day-picker": "^7.4.0",
     "react-dom": "^16.12.0",
     "react-google-calendar-api": "^1.0.11",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.3.0",
+    "react-toastify": "^5.5.0"
   },
   "scripts": {
     "start": "react-scripts start",

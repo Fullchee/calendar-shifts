@@ -1,13 +1,19 @@
 import React from "react";
 import ApiCalendar from "react-google-calendar-api";
 import Calendar from "./Calendar";
-import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
+import ShiftCreator from "./ShiftCreator";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import defaultShifts from "./defaultShifts";
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDays: []
+      selectedDays: defaultShifts,
+      shifts: [],
+      selectedShift: null,
+      showTimeRange: false
     };
   }
 
@@ -21,8 +27,10 @@ export default class Home extends React.Component {
   handleItemClick = (event, name) => {
     if (name === "sign-in") {
       ApiCalendar.handleAuthClick();
+      toast("Signed in to Google Calendar! 📅");
     } else if (name === "sign-out") {
       ApiCalendar.handleSignoutClick();
+      toast("Signed out!");
     }
   };
 
@@ -30,7 +38,10 @@ export default class Home extends React.Component {
     this.setState({ selectedDays });
   };
 
-  createEvent = e => {
+  createEvent = () => {
+    if (!this.state.selectedShift) {
+      toast("Please create a toast first!");
+    }
     ApiCalendar.createEvent(
       {
         start: {
@@ -51,7 +62,19 @@ export default class Home extends React.Component {
         console.log(error);
       });
   };
+  showShiftCreator = () => {
+    this.setState({ showTimeRange: true });
+  };
 
+  /**
+   * Currying: time is provided by the bottom TimePicker component
+   * @param {["HH:MM", "HH:MM"]} time
+   */
+  createShift = time => {
+    return () => {
+      this.setState({ shifts: [...this.state.shifts, time] });
+    };
+  };
   render() {
     return (
       <>
@@ -66,8 +89,11 @@ export default class Home extends React.Component {
           sign-out
         </button>
         <button onClick={this.createEvent}>Create event</button>
-        <button onClick={this.createShift}>Create shift</button>
-        <TimeRangePicker></TimeRangePicker>
+        <button onClick={this.showShiftCreator}>Create a shift</button>
+        <ShiftCreator
+          isVisible={this.state.showTimeRange}
+          onCreate={this.createShift}
+        ></ShiftCreator>
       </>
     );
   }
