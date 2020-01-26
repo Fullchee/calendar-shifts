@@ -36,3 +36,7 @@ yarn start
   - if it finds it, add some UI change to the React Calendar UI
 - If not logged in, just show the login
   - or, when you click create event, if not logged in, ask for login
+
+## User stories
+
+- edit the name/times of a shift
