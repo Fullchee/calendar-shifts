@@ -82,21 +82,25 @@ export default class Home extends React.Component {
           selectedDays={this.state.selectedDays}
           onUpdate={this.updateSelectedDays}
         ></Calendar>
-        <button onClick={() => ApiCalendar.handleAuthClick()}>Sign in</button>
-        <button onClick={this.createEvent}>Create event</button>
-        <button onClick={this.showShiftEditor}>Create a shift</button>
-        <Dropdown
-          title="Select shift"
-          list={this.state.shifts}
-          onChange={e =>
-            this.setState({ selectedShift: JSON.parse(e.target.value) })
-          }
-        ></Dropdown>
+        <div>
+          <button onClick={() => ApiCalendar.handleAuthClick()}>Sign in</button>
+        </div>
+        <div>
+          <Dropdown
+            title="Select shift"
+            list={this.state.shifts}
+            onChange={e =>
+              this.setState({ selectedShift: JSON.parse(e.target.value) })
+            }
+          ></Dropdown>
+          <button onClick={this.showShiftEditor}>Create a shift</button>
+        </div>
         <ShiftEditor
           isVisible={this.state.showTimeRange}
           onCreate={this.createShift}
           onClose={() => this.setState({ showTimeRange: false })}
         ></ShiftEditor>
+        <button onClick={this.createEvent}>Create event</button>
       </>
     );
   }

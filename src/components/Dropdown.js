@@ -19,7 +19,13 @@ export default class Dropdown extends React.Component {
   };
   render() {
     return (
-      <select name="shifts" id="shift-select" onChange={this.props.onChange}>
+      <select
+        placeholder="lksjfdlk"
+        defaultValue="sldjflkdsf"
+        name="shifts"
+        id="shift-select"
+        onChange={this.props.onChange}
+      >
         <option disabled value="">
           --Shifts--
         </option>
