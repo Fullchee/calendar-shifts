@@ -3,10 +3,10 @@ import "./App.css";
 import Home from "./components/Home";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga";
-ReactGA.initialize("UA-121909234-2");
-ReactGA.pageview(window.location.pathname + window.location.search);
 
 function App() {
+  ReactGA.initialize("UA-121909234-2");
+  ReactGA.pageview(window.location.pathname + window.location.search);
   toast.configure();
   return (
     <div className="App">
