@@ -2,6 +2,9 @@ import React from "react";
 import "./App.css";
 import Home from "./components/Home";
 import { toast } from "react-toastify";
+import ReactGA from "react-ga";
+ReactGA.initialize("210371162");
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 function App() {
   toast.configure();

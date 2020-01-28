@@ -8590,6 +8590,11 @@ react-fit@^1.0.3:
     detect-element-overflow "^1.1.1"
     prop-types "^15.6.0"
 
+react-ga@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.7.0.tgz#24328f157f31e8cffbf4de74a3396536679d8d7c"
+  integrity sha512-AjC7UOZMvygrWTc2hKxTDvlMXEtbmA0IgJjmkhgmQQ3RkXrWR11xEagLGFGaNyaPnmg24oaIiaNPnEoftUhfXA==
+
 react-google-calendar-api@^1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/react-google-calendar-api/-/react-google-calendar-api-1.0.11.tgz#6097ac2a1dc05e7d4a327d06d100473df3eb9a7b"
