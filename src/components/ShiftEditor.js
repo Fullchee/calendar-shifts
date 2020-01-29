@@ -23,13 +23,14 @@ export default class ShiftEditor extends React.Component {
         {
           label: "Yes",
           onClick: () => {
-            debugger;
             this.props.onDelete(this.state.shift)();
           }
         },
         {
           label: "No",
-          onClick: () => alert("Click No")
+          onClick: () => {
+            return;
+          }
         }
       ]
     });
