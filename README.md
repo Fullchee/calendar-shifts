@@ -1,16 +1,15 @@
-# [Calendar Shifts]()
+# [Calendar Shifts](https://calendar-shifts.netlify.com/)
 
 Quickly create reoccurring calendar events.
 
 When you get your next month's schedule and you need to quickly add it to your calendar.
 
-
 ## How to use
+
 1. Login
 2. Select the days you have that shift.
 3. Create a title and a description for your calendar events
 4. Click "Add shifts" to add a shift!
-
 
 ## Install
 
@@ -44,6 +43,9 @@ yarn start
 - UX & CSS
 - Tutorial on first load
 
-
 ## Lessons learned
-- Connecting to the Google API wasn't tooo bad.
+
+- apiGoogleconfig.json: encrypted with git-crypt
+  - Had trouble getting gcal working on netlify
+  - tried GH Pages as well without success
+- Verifying a website with Google was surprisingly easy
