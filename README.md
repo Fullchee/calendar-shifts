@@ -40,7 +40,10 @@ yarn start
 
 - Read google calendar events (search for a specific name)
   - if it finds it, add some UI change to the React Calendar UI
+- Created # calendar events toast
+- UX & CSS
+- Tutorial on first load
 
-## User stories
 
-- dropdown: default value?
+## Lessons learned
+- Connecting to the Google API wasn't tooo bad.

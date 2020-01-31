@@ -60,9 +60,7 @@ export default class EventCreator extends React.Component {
       )
         .then(result => {
           console.log(result);
-          toast(
-            "Created calendar event on " + this.formatDate(this.formatDate(day))
-          );
+          toast("Created calendar event on " + this.formatDate(day));
         })
         .catch(error => {
           console.log(error);
