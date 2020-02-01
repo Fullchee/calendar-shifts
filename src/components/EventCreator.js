@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dropdown from "./Dropdown";
 import formatShift from "./formatShift";
-
-// import "react-toastify/dist/ReactToastify.min.css";
 import defaultShifts from "./defaultShifts";
 
 export default class EventCreator extends React.Component {
@@ -16,7 +14,7 @@ export default class EventCreator extends React.Component {
     this.state = {
       selectedDays: [],
       shifts: defaultShifts,
-      selectedShift: null,
+      selectedShift: ["07:30", "15:30"],
       showTimeRange: false,
       title: "",
       description: ""
