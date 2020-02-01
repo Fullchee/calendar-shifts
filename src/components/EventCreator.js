@@ -8,14 +8,16 @@ import Dropdown from "./Dropdown";
 import formatShift from "./formatShift";
 import defaultShifts from "./defaultShifts";
 
+const DEFAULT_SHIFT = ["07:30", "15:30"];
+
 export default class EventCreator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedDays: [],
       shifts: defaultShifts,
-      selectedShift: ["07:30", "15:30"],
-      showTimeRange: false,
+      selectedShift: DEFAULT_SHIFT,
+      showShiftEditor: false,
       title: "",
       description: ""
     };
@@ -37,25 +39,16 @@ export default class EventCreator extends React.Component {
       toast("Make sure to select a shift");
       return;
     }
-    if (this.state.selectedDays.length === 0) {
+    if (!this.state.selectedDays.length) {
       toast("Make sure to select days on the calendar");
       return;
     }
-    const [start, end] = this.state.selectedShift;
+    if (!this.state.title) {
+      toast("Make sure to enter a title for your events");
+      return;
+    }
     this.state.selectedDays.forEach(day => {
-      ApiCalendar.createEvent(
-        {
-          start: {
-            dateTime: this.combineDateAndTime(day, start)
-          },
-          end: {
-            dateTime: this.combineDateAndTime(day, end)
-          },
-          summary: this.state.title,
-          description: this.state.description
-        },
-        "primary"
-      )
+      ApiCalendar.createEvent(this.calculateEvent(day), "primary")
         .then(result => {
           console.log(result);
           toast("Created calendar event on " + this.formatDate(day));
@@ -65,6 +58,28 @@ export default class EventCreator extends React.Component {
           toast("Failed to create event on " + this.formatDate(day));
         });
     });
+  };
+
+  calculateEvent = day => {
+    const [start, end] = this.state.selectedShift;
+
+    const startDate = this.combineDateAndTime(day, start);
+    let endDate = this.combineDateAndTime(day, end);
+
+    // shift goes to the next day
+    if (endDate < startDate) {
+      endDate.setDate(endDate.getDate() + 1);
+    }
+    return {
+      start: {
+        dateTime: startDate
+      },
+      end: {
+        dateTime: endDate
+      },
+      summary: this.state.title,
+      description: this.state.description
+    };
   };
 
   /**
@@ -103,7 +118,7 @@ export default class EventCreator extends React.Component {
   };
 
   showShiftEditor = () => {
-    this.setState({ showTimeRange: true });
+    this.setState({ showShiftEditor: true });
   };
 
   /**
@@ -130,18 +145,28 @@ export default class EventCreator extends React.Component {
   };
   deleteShift = selectedShift => {
     return () => {
-      debugger;
       const index = this.state.shifts.findIndex(
         shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
       );
-      debugger;
       if (index !== -1) {
+        const newShiftList = [
+          ...this.state.shifts.slice(0, index),
+          ...this.state.shifts.slice(index + 1)
+        ];
         this.setState({
-          shifts: [
-            ...this.state.shifts.slice(0, index),
-            ...this.state.shifts.slice(index + 1)
-          ]
+          shifts: newShiftList
         });
+
+        // selected shift was deleted
+        if (
+          selectedShift[0] === this.state.selectedShift[0] &&
+          selectedShift[1] === this.state.selectedShift[1]
+        ) {
+          this.setState({
+            selectedShift:
+              (newShiftList.length && newShiftList[0]) || DEFAULT_SHIFT
+          });
+        }
         toast(`Deleted shift ${formatShift(selectedShift)}`);
       } else {
         toast(
@@ -164,6 +189,7 @@ export default class EventCreator extends React.Component {
             <label>
               Event Title
               <input
+                required
                 type="text"
                 name="title"
                 onChange={e => this.setState({ title: e.target.value })}
@@ -192,10 +218,10 @@ export default class EventCreator extends React.Component {
             </button>
           </div>
           <ShiftEditor
-            isVisible={this.state.showTimeRange}
+            isVisible={this.state.showShiftEditor}
             onCreate={this.createShift}
             onDelete={this.deleteShift}
-            onClose={() => this.setState({ showTimeRange: false })}
+            onClose={() => this.setState({ showShiftEditor: false })}
             shifts={this.state.shifts}
           ></ShiftEditor>
           <button className="btn" onClick={this.createEvent}>

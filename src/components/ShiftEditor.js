@@ -4,18 +4,20 @@ import Dropdown from "./Dropdown";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import formatShift from "./formatShift";
+import Modal from "react-modal";
+Modal.setAppElement("#root");
+const DEFAULT_SHIFT = ["07:30", "15:30"];
 
 export default class ShiftEditor extends React.Component {
   constructor(props) {
     super(props);
-    const DEFAULT_SHIFT = ["09:00", "17:00"];
     this.state = {
-      shift: this.props.shift || DEFAULT_SHIFT
+      shift: this.props.shifts[0] || DEFAULT_SHIFT
     };
   }
   onChange = shift => this.setState({ shift });
 
-  confirm = () => {
+  confirmDelete = () => {
     confirmAlert({
       title: `Delete shift "${formatShift(this.state.shift)}"?`,
       message: "",
@@ -24,6 +26,8 @@ export default class ShiftEditor extends React.Component {
           label: "Yes",
           onClick: () => {
             this.props.onDelete(this.state.shift)();
+            debugger;
+            this.setState({ shift: this.props.shifts[0] });
           }
         },
         {
@@ -36,28 +40,37 @@ export default class ShiftEditor extends React.Component {
     });
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.shifts !== prevProps.shifts) {
+      this.setState({ shift: this.props.shifts[0] || DEFAULT_SHIFT });
+    }
+  }
+
   render() {
     if (!this.props.isVisible) {
       return null;
     }
     return (
-      <div>
+      <Modal isOpen={this.props.isVisible} onRequestClose={this.props.onClose}>
         <div>
           <TimeRangePicker onChange={this.onChange} value={this.state.shift} />
         </div>
         <Dropdown
           title="Select shift"
           list={this.props.shifts}
-          onChange={e => this.setState({ shift: JSON.parse(e.target.value) })}
+          onChange={e => {
+            debugger;
+            this.setState({ shift: JSON.parse(e.target.value) });
+          }}
         ></Dropdown>
         <div>
           <button onClick={this.props.onCreate(this.state.shift)}>
             Create
           </button>
-          <button onClick={this.confirm}>Delete</button>
+          <button onClick={this.confirmDelete}>Delete</button>
           <button onClick={this.props.onClose}>Close</button>
         </div>
-      </div>
+      </Modal>
     );
   }
 }

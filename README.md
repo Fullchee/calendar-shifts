@@ -37,6 +37,7 @@ yarn start
 
 ## TODOs
 
+- mark the title section as mandatory
 - Read google calendar events (search for a specific name)
   - if it finds it, add some UI change to the React Calendar UI
 - Created # calendar events toast
