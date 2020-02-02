@@ -171,6 +171,7 @@
   }
   .form .input {
     grid-column: 1 / 2;
+    
     max-width: 70vw;
   }
   .form label {

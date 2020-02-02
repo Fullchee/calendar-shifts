@@ -34,7 +34,8 @@ export default class EventCreator extends React.Component {
     this.setState({ selectedDays });
   };
 
-  createEvent = () => {
+  createEvent = async e => {
+    e.preventDefault();
     if (!this.state.selectedShift) {
       toast("Make sure to select a shift");
       return;
@@ -47,17 +48,25 @@ export default class EventCreator extends React.Component {
       toast("Make sure to enter a title for your events");
       return;
     }
-    this.state.selectedDays.forEach(day => {
-      ApiCalendar.createEvent(this.calculateEvent(day), "primary")
-        .then(result => {
-          console.log(result);
-          toast("Created calendar event on " + this.formatDate(day));
-        })
-        .catch(error => {
-          console.log(error);
-          toast("Failed to create event on " + this.formatDate(day));
-        });
-    });
+
+    const delay = interval =>
+      new Promise(resolve => setTimeout(resolve, interval));
+
+    for (let i = 0; i < this.state.selectedDays.length; i++) {
+      const day = this.state.selectedDays[i];
+      try {
+        const res = await ApiCalendar.createEvent(
+          this.calculateEvent(day),
+          "primary"
+        );
+        delay(101); // Google API: max 10 requests a second
+        console.log(res);
+        toast("Created calendar event on " + this.formatDate(day));
+      } catch (e) {
+        console.log(e);
+        toast("Failed to create event on " + this.formatDate(day));
+      }
+    }
   };
 
   calculateEvent = day => {
