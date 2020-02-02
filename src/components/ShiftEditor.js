@@ -12,40 +12,38 @@ export default class ShiftEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      shift: this.props.shifts[0] || DEFAULT_SHIFT
+      shift: this.props.selectedShift || DEFAULT_SHIFT
     };
   }
   onChange = shift => this.setState({ shift });
 
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedShift !== prevProps.selectedShift) {
+      this.setState({
+        shift: this.props.selectedShift
+      });
+    }
+  }
+
   confirmDelete = e => {
     e.preventDefault();
     confirmAlert({
-      title: `Delete shift "${formatShift(this.state.shift)}"?`,
+      title: `Delete shift "${formatShift(this.props.selectedShift)}"?`,
       message: "",
       buttons: [
         {
           label: "Yes",
           onClick: () => {
-            this.props.onDelete(this.state.shift)();
-            debugger;
-            this.setState({ shift: this.props.shifts[0] });
+            this.props.onDelete();
           }
         },
         {
           label: "No",
-          onClick: () => {
-            return;
-          }
+          onClick: () => {}
         }
       ]
     });
   };
-
-  componentDidUpdate(prevProps) {
-    if (this.props.shifts !== prevProps.shifts) {
-      this.setState({ shift: this.props.shifts[0] || DEFAULT_SHIFT });
-    }
-  }
 
   render() {
     if (!this.props.isVisible) {
@@ -60,9 +58,8 @@ export default class ShiftEditor extends React.Component {
               id="modal-select-shift"
               title="Select shift"
               list={this.props.shifts}
-              onChange={e => {
-                this.setState({ shift: JSON.parse(e.target.value) });
-              }}
+              value={this.props.selectedShift}
+              onChange={this.props.onDropdownChange}
             ></Dropdown>
             <label htmlFor="range-picker"></label>
             <div id="range-picker" className="range-picker">

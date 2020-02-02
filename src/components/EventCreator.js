@@ -144,39 +144,33 @@ export default class EventCreator extends React.Component {
       toast(`Created the new shift: ${formatShift(selectedShift)}`);
     };
   };
-  deleteShift = selectedShift => {
-    return () => {
-      const index = this.state.shifts.findIndex(
-        shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
+  deleteShift = () => {
+    debugger;
+    const selectedShift = this.state.selectedShift;
+    const index = this.state.shifts.findIndex(
+      shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
+    );
+    if (index !== -1) {
+      const newShiftList = [
+        ...this.state.shifts.slice(0, index),
+        ...this.state.shifts.slice(index + 1)
+      ];
+      this.setState({
+        shifts: newShiftList,
+        selectedShift: (newShiftList.length && newShiftList[0]) || ""
+      });
+      toast(`Deleted shift ${formatShift(selectedShift)}`);
+    } else {
+      toast(
+        `Shift ${formatShift(
+          selectedShift
+        )} not found! It might already be deleted.`
       );
-      if (index !== -1) {
-        const newShiftList = [
-          ...this.state.shifts.slice(0, index),
-          ...this.state.shifts.slice(index + 1)
-        ];
-        this.setState({
-          shifts: newShiftList
-        });
+    }
+  };
 
-        // selected shift was deleted
-        if (
-          selectedShift[0] === this.state.selectedShift[0] &&
-          selectedShift[1] === this.state.selectedShift[1]
-        ) {
-          this.setState({
-            selectedShift:
-              (newShiftList.length && newShiftList[0]) || DEFAULT_SHIFT
-          });
-        }
-        toast(`Deleted shift ${formatShift(selectedShift)}`);
-      } else {
-        toast(
-          `Shift ${formatShift(
-            selectedShift
-          )} not found! It might already be deleted.`
-        );
-      }
-    };
+  dropdownChange = e => {
+    this.setState({ selectedShift: JSON.parse(e.target.value) });
   };
   render() {
     return (
@@ -220,16 +214,17 @@ export default class EventCreator extends React.Component {
             id="select-shift"
             title="Select shift"
             list={this.state.shifts}
-            onChange={e =>
-              this.setState({ selectedShift: JSON.parse(e.target.value) })
-            }
+            value={this.state.selectedShift}
+            onChange={this.dropdownChange}
           ></Dropdown>
           <ShiftEditor
             isVisible={this.state.showShiftEditor}
+            onDropdownChange={this.dropdownChange}
             onCreate={this.createShift}
             onDelete={this.deleteShift}
             onClose={() => this.setState({ showShiftEditor: false })}
             shifts={this.state.shifts}
+            selectedShift={this.state.selectedShift}
           ></ShiftEditor>
           <button
             className="btn btn--primary btn--submit"

@@ -8,6 +8,7 @@ export default class Dropdown extends React.Component {
         id="shift-select"
         className="input hours-dropdown"
         onChange={this.props.onChange}
+        value={JSON.stringify(this.props.value)}
       >
         {this.props.list.map(shift => {
           const shiftString = JSON.stringify(shift);
