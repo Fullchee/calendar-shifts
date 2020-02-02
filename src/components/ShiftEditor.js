@@ -74,16 +74,18 @@ export default class ShiftEditor extends React.Component {
             <button className="btn btn--delete" onClick={this.confirmDelete}>
               Delete
             </button>
-            <button
-              className="btn btn--primary"
-              onClick={this.props.onCreate(this.state.shift)}
-            >
-              Create
-            </button>
+            <div className="cancel-create">
+              <button className="btn btn--close" onClick={this.props.onClose}>
+                Close
+              </button>
+              <button
+                className="btn btn--primary btn--create"
+                onClick={this.props.onCreate(this.state.shift)}
+              >
+                Create
+              </button>
+            </div>
           </form>
-          <button className="btn exit" onClick={this.props.onClose}>
-            Close
-          </button>
         </div>
       </Modal>
     );

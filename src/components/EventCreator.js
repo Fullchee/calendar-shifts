@@ -135,13 +135,13 @@ export default class EventCreator extends React.Component {
         )
       ) {
         toast(`The ${formatShift(selectedShift)} shift already exists`);
-      } else {
-        this.setState({
-          shifts: [...this.state.shifts, selectedShift],
-          selectedShift: selectedShift
-        });
-        toast(`Created the new shift: ${formatShift(selectedShift)}`);
+        return;
       }
+      this.setState({
+        shifts: [...this.state.shifts, selectedShift],
+        selectedShift: selectedShift
+      });
+      toast(`Created the new shift: ${formatShift(selectedShift)}`);
     };
   };
   deleteShift = selectedShift => {
@@ -239,7 +239,7 @@ export default class EventCreator extends React.Component {
           </button>
         </form>
         <button
-          className="btn exit"
+          className="btn btn--exit"
           onClick={() => {
             ApiCalendar.handleSignoutClick();
             toast("Signed out!");
