@@ -62,12 +62,15 @@ export default class ShiftEditor extends React.Component {
               onChange={this.props.onDropdownChange}
             ></Dropdown>
             <label htmlFor="range-picker"></label>
-            <div id="range-picker" className="range-picker">
-              <TimeRangePicker
-                onChange={this.onChange}
-                value={this.state.shift}
-              />
-            </div>
+            <TimeRangePicker
+              id="range-picker"
+              className="range-picker"
+              onChange={this.onChange}
+              value={this.state.shift}
+              disableClock={true}
+              amPmAriaLabel="Select AM/PM"
+              clearAriaLabel="Clear hour range value"
+            />
             <button className="btn btn--delete" onClick={this.confirmDelete}>
               Delete
             </button>

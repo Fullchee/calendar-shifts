@@ -162,5 +162,43 @@
 }
 
 .range-picker {
-  font-size: 1rem;
+  width: 100%;
+}
+
+@media only screen and (max-width: 950px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+  .form .input {
+    grid-column: 1 / 2;
+    max-width: 70vw;
+  }
+  .form label {
+    text-align: left;
+  }
+  .cancel-create {
+    grid-column: 1 / 2;
+    margin-left: 0;
+  }
+  .react-timerange-picker .react-timerange-picker__wrapper {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    border: none;
+    background: #eee;
+    padding: 20px;
+  }
+}
+
+.react-timerange-picker__inputGroup > input,
+.react-timerange-picker__inputGroup > span {
+  font-size: 2em;
+}
+
+.react-timerange-picker__inputGroup__hour {
+  width: 30px !important;
+}
+
+.react-timerange-picker__inputGroup__minute {
+  width: 60px !important;
 }
