@@ -17,7 +17,8 @@ export default class ShiftEditor extends React.Component {
   }
   onChange = shift => this.setState({ shift });
 
-  confirmDelete = () => {
+  confirmDelete = e => {
+    e.preventDefault();
     confirmAlert({
       title: `Delete shift "${formatShift(this.state.shift)}"?`,
       message: "",
@@ -52,23 +53,37 @@ export default class ShiftEditor extends React.Component {
     }
     return (
       <Modal isOpen={this.props.isVisible} onRequestClose={this.props.onClose}>
-        <div>
-          <TimeRangePicker onChange={this.onChange} value={this.state.shift} />
-        </div>
-        <Dropdown
-          title="Select shift"
-          list={this.props.shifts}
-          onChange={e => {
-            debugger;
-            this.setState({ shift: JSON.parse(e.target.value) });
-          }}
-        ></Dropdown>
-        <div>
-          <button onClick={this.props.onCreate(this.state.shift)}>
-            Create
+        <div className="modal">
+          <form className="form">
+            <label htmlFor="modal-select-shift">Shift to edit</label>
+            <Dropdown
+              id="modal-select-shift"
+              title="Select shift"
+              list={this.props.shifts}
+              onChange={e => {
+                this.setState({ shift: JSON.parse(e.target.value) });
+              }}
+            ></Dropdown>
+            <label htmlFor="range-picker"></label>
+            <div id="range-picker" className="range-picker">
+              <TimeRangePicker
+                onChange={this.onChange}
+                value={this.state.shift}
+              />
+            </div>
+            <button className="btn btn--delete" onClick={this.confirmDelete}>
+              Delete
+            </button>
+            <button
+              className="btn btn--primary"
+              onClick={this.props.onCreate(this.state.shift)}
+            >
+              Create
+            </button>
+          </form>
+          <button className="btn exit" onClick={this.props.onClose}>
+            Close
           </button>
-          <button onClick={this.confirmDelete}>Delete</button>
-          <button onClick={this.props.onClose}>Close</button>
         </div>
       </Modal>
     );

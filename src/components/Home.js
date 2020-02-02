@@ -31,12 +31,12 @@ export default class Home extends React.Component {
             <p>Quickly add your work shifts to Google Calendar</p>
           </div>
           <button
-            className="btn"
+            className="btn btn--primary"
             onClick={() => {
               ApiCalendar.handleAuthClick();
             }}
           >
-            Sign in
+            Sign in with Google Calendar
           </button>
         </div>
       );

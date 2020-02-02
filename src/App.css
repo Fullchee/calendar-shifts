@@ -21,6 +21,18 @@
   font-size: calc(10px + 2vmin);
 }
 
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.modal + * {
+  margin-top: 1.5em;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -31,6 +43,7 @@
 }
 
 .btn {
+  cursor: pointer;
   padding: 1rem;
   margin: 0.5rem;
   border-radius: 5px;
@@ -60,16 +73,16 @@
   grid-column: 2 / 3;
   background: #fff;
   border: 1px solid #9c9c9c;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 3vmin);
+}
+
+.input:focus {
+  outline: 3px solid gold;
 }
 
 .description {
   resize: none;
   font-family: Helvetica, Arial, sans-serif;
-}
-
-.input:focus {
-  outline: 3px solid gold;
 }
 
 .form button {
@@ -79,7 +92,7 @@
   grid-column: 2 / 3;
 }
 
-.form .btn:hover {
+.btn:hover {
   background: gold;
 }
 
@@ -87,24 +100,37 @@
   color: red;
 }
 
-.form .submit {
+.btn.btn--submit {
   grid-column: 1 / -1;
-  background-color: var(--blue, #1a73e8);
-  color: white;
 }
 
-.form .edit {
+.btn.btn--primary {
+  background-color: var(--blue, #1a73e8);
+  color: white;
+  padding: 1rem;
+}
+
+.btn.btn--secondary {
   background-color: var(--faded-blue);
-  color: #827d9d;
+  /* color: #827d9d; */
+  padding: 5px;
 }
 
 .hours-dropdown {
   height: 2.5rem;
-  margin-bottom: 0;
-  padding-bottom: 0;
+  cursor: pointer;
 }
 
-.sign-out {
+.exit {
   order: -1;
-  align-self: end;
+  align-self: flex-end;
+}
+
+.btn.btn--delete {
+  background-color: #b00020;
+  color: white;
+}
+
+.form .btn--delete {
+  grid-column: 1 / 2;
 }

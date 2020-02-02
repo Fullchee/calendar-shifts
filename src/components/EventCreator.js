@@ -126,7 +126,8 @@ export default class EventCreator extends React.Component {
    * @param {["HH:MM", "HH:MM"]} time
    */
   createShift = selectedShift => {
-    return () => {
+    return e => {
+      e.preventDefault();
       if (
         this.state.shifts.find(
           shift =>
@@ -204,7 +205,10 @@ export default class EventCreator extends React.Component {
             onChange={e => this.setState({ description: e.target.value })}
           ></textarea>
           <label htmlFor="select-shift">
-            <button className="btn edit" onClick={this.showShiftEditor}>
+            <button
+              className="btn btn--secondary"
+              onClick={this.showShiftEditor}
+            >
               Edit{" "}
               <span role="img" aria-hidden="true">
                 ✏️
@@ -227,12 +231,15 @@ export default class EventCreator extends React.Component {
             onClose={() => this.setState({ showShiftEditor: false })}
             shifts={this.state.shifts}
           ></ShiftEditor>
-          <button className="btn submit" onClick={this.createEvent}>
+          <button
+            className="btn btn--primary btn--submit"
+            onClick={this.createEvent}
+          >
             Create calendar events!
           </button>
         </form>
         <button
-          className="btn sign-out"
+          className="btn exit"
           onClick={() => {
             ApiCalendar.handleSignoutClick();
             toast("Signed out!");
