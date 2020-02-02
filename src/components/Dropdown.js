@@ -3,7 +3,12 @@ import formatShift from "./formatShift";
 export default class Dropdown extends React.Component {
   render() {
     return (
-      <select name="shifts" id="shift-select" onChange={this.props.onChange}>
+      <select
+        name="shifts"
+        id="shift-select"
+        className="input hours-dropdown"
+        onChange={this.props.onChange}
+      >
         {this.props.list.map(shift => {
           const shiftString = JSON.stringify(shift);
           return (

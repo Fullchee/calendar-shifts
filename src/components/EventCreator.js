@@ -184,39 +184,42 @@ export default class EventCreator extends React.Component {
           selectedDays={this.state.selectedDays}
           onUpdate={this.updateSelectedDays}
         ></Calendar>
-        <div className="user-input">
-          <div>
-            <label>
-              Event Title
-              <input
-                required
-                type="text"
-                name="title"
-                onChange={e => this.setState({ title: e.target.value })}
-              ></input>
-            </label>
-          </div>
-          <div>
-            <label>
-              Event Description
-              <textarea
-                name="Title"
-                onChange={e => this.setState({ description: e.target.value })}
-              ></textarea>
-            </label>
-          </div>
-          <div>
-            <Dropdown
-              title="Select shift"
-              list={this.state.shifts}
-              onChange={e =>
-                this.setState({ selectedShift: JSON.parse(e.target.value) })
-              }
-            ></Dropdown>
-            <button className="btn" onClick={this.showShiftEditor}>
-              Manage Shifts
+        <form className="form">
+          <label htmlFor="title">
+            Title<span className="required"> * </span>
+          </label>
+          <input
+            id="title"
+            className="input"
+            required
+            type="text"
+            name="title"
+            onChange={e => this.setState({ title: e.target.value })}
+          ></input>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            className="input description"
+            name="description"
+            onChange={e => this.setState({ description: e.target.value })}
+          ></textarea>
+          <label htmlFor="select-shift">
+            <button className="btn edit" onClick={this.showShiftEditor}>
+              Edit{" "}
+              <span role="img" aria-hidden="true">
+                ✏️
+              </span>
             </button>
-          </div>
+            Hours
+          </label>
+          <Dropdown
+            id="select-shift"
+            title="Select shift"
+            list={this.state.shifts}
+            onChange={e =>
+              this.setState({ selectedShift: JSON.parse(e.target.value) })
+            }
+          ></Dropdown>
           <ShiftEditor
             isVisible={this.state.showShiftEditor}
             onCreate={this.createShift}
@@ -224,21 +227,19 @@ export default class EventCreator extends React.Component {
             onClose={() => this.setState({ showShiftEditor: false })}
             shifts={this.state.shifts}
           ></ShiftEditor>
-          <button className="btn" onClick={this.createEvent}>
+          <button className="btn submit" onClick={this.createEvent}>
             Create calendar events!
           </button>
-        </div>
-        <div>
-          <button
-            className="btn"
-            onClick={() => {
-              ApiCalendar.handleSignoutClick();
-              toast("Signed out!");
-            }}
-          >
-            Sign out
-          </button>
-        </div>
+        </form>
+        <button
+          className="btn sign-out"
+          onClick={() => {
+            ApiCalendar.handleSignoutClick();
+            toast("Signed out!");
+          }}
+        >
+          Sign out
+        </button>
       </>
     );
   }
