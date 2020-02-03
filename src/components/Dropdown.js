@@ -5,7 +5,7 @@ export default class Dropdown extends React.Component {
     return (
       <select
         name="shifts"
-        id="shift-select"
+        id="select-shift"
         className="input hours-dropdown"
         onChange={this.props.onChange}
         value={JSON.stringify(this.props.value)}
