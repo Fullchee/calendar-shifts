@@ -50,3 +50,11 @@ yarn start
   - Had trouble getting gcal working on netlify
   - tried GH Pages as well without success
 - Verifying a website with Google was surprisingly easy
+
+### Tech
+
+- React
+- git-crypt
+- Git hooks (Husky)
+- Cypress.io (E2E testing)
+- ~~Integration tests (React testing library)~~
