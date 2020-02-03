@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Dropdown from "./Dropdown";
 import formatShift from "./formatShift";
 import defaultShifts from "./defaultShifts";
+import TextareaAutosize from "react-textarea-autosize";
 
 const DEFAULT_SHIFT = ["07:30", "15:30"];
 
@@ -201,12 +202,14 @@ export default class EventCreator extends React.Component {
             onChange={e => this.setState({ title: e.target.value })}
           ></input>
           <label htmlFor="description">Description</label>
-          <textarea
+          <TextareaAutosize
             id="description"
             className="input description"
             name="description"
+            minRows={3}
+            value={this.state.description}
             onChange={e => this.setState({ description: e.target.value })}
-          ></textarea>
+          ></TextareaAutosize>
           <label htmlFor="select-shift">
             <button
               id="edit-shifts"
