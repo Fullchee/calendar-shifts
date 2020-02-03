@@ -33,7 +33,7 @@ describe("should modify the original dropdown", () => {
   beforeEach(function() {
     cy.visit("localhost:3000/test");
   });
-  it.only("should modify the original dropdown", () => {
+  it("should modify the original dropdown", () => {
     cy.get("#edit-shifts").click();
     cy.get("#modal-select-shift").select(`["15:30","23:30"]`);
     cy.get(".btn--close").click();
