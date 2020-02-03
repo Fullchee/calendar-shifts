@@ -37,11 +37,11 @@ yarn start
 
 ## TODOs
 
-- mark the title section as mandatory
+- CircleCI and cypress
+- Husky and git hooks
 - Read google calendar events (search for a specific name)
   - if it finds it, add some UI change to the React Calendar UI
 - Created # calendar events toast
-- UX & CSS
 - Tutorial on first load
 
 ## Lessons learned
