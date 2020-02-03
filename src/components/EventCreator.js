@@ -209,6 +209,7 @@ export default class EventCreator extends React.Component {
           ></textarea>
           <label htmlFor="select-shift">
             <button
+              id="edit-shifts"
               className="btn btn--secondary"
               onClick={this.showShiftEditor}
             >

@@ -1,8 +1,8 @@
-describe("first test", () => {
+describe("Test form error checking", () => {
   beforeEach(function() {
     cy.visit("localhost:3000/test");
   });
-  it("do basically nothing", () => {
+  it("should notify the user that they have to fill in the form", () => {
     // click with no input
     cy.get(".btn--submit").click({ force: true });
 
@@ -27,4 +27,19 @@ describe("first test", () => {
       "11, " + new Date().getFullYear()
     );
   });
+});
+
+describe("should modify the original dropdown", () => {
+  beforeEach(function() {
+    cy.visit("localhost:3000/test");
+  });
+  it.only("should modify the original dropdown", () => {
+    cy.get("#edit-shifts").click();
+    cy.get("#modal-select-shift").select(`["15:30","23:30"]`);
+    cy.get(".btn--close").click();
+    cy.get("#select-shift").should("have.value", `["15:30","23:30"]`);
+  });
+  // TODO: delete, create
+
+  // TODO: create should set the new hours to be selected
 });
