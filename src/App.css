@@ -206,3 +206,8 @@
 .react-timerange-picker__inputGroup__minute {
   width: 60px !important;
 }
+
+.DayPicker-Weekday abbr {
+  /* lightest grey that's accessible on white */
+  color: #767676;
+}
