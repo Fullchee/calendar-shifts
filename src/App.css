@@ -171,7 +171,7 @@
   }
   .form .input {
     grid-column: 1 / 2;
-    
+
     max-width: 70vw;
   }
   .form label {
@@ -192,12 +192,15 @@
 }
 
 .react-timerange-picker__inputGroup > input,
-.react-timerange-picker__inputGroup > span {
+.react-timerange-picker__inputGroup > span,
+.react-timerange-picker__inputGroup > select,
+.react-timerange-picker__inputGroup + span {
   font-size: 2em;
 }
 
 .react-timerange-picker__inputGroup__hour {
-  width: 30px !important;
+  width: 60px !important;
+  text-align: right;
 }
 
 .react-timerange-picker__inputGroup__minute {
