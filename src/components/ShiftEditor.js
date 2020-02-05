@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
 import Dropdown from "./Dropdown";
 import { confirmAlert } from "react-confirm-alert";
@@ -60,3 +61,12 @@ export default class ShiftEditor extends React.Component {
     );
   }
 }
+
+ShiftEditor.propTypes = {
+  isVisible: PropTypes.bool,
+  onClose: PropTypes.func,
+  onCreate: PropTypes.func,
+  onDelete: PropTypes.func,
+  shift: PropTypes.array,
+  shifts: PropTypes.array
+};
