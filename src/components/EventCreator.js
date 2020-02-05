@@ -6,9 +6,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dropdown from "./Dropdown";
 import formatShift from "./formatShift";
-
-// import "react-toastify/dist/ReactToastify.min.css";
 import defaultShifts from "./defaultShifts";
+import TextareaAutosize from "react-textarea-autosize";
+
+const DEFAULT_SHIFT = ["07:30", "15:30"];
 
 export default class EventCreator extends React.Component {
   constructor(props) {
@@ -16,8 +17,8 @@ export default class EventCreator extends React.Component {
     this.state = {
       selectedDays: [],
       shifts: defaultShifts,
-      selectedShift: null,
-      showTimeRange: false,
+      selectedShift: DEFAULT_SHIFT,
+      showShiftEditor: false,
       title: "",
       description: ""
     };
@@ -34,41 +35,61 @@ export default class EventCreator extends React.Component {
     this.setState({ selectedDays });
   };
 
-  createEvent = () => {
+  createEvent = async e => {
+    e.preventDefault();
     if (!this.state.selectedShift) {
       toast("Make sure to select a shift");
       return;
     }
-    if (this.state.selectedDays.length === 0) {
+    if (!this.state.selectedDays.length) {
       toast("Make sure to select days on the calendar");
       return;
     }
+    if (!this.state.title) {
+      toast("Make sure to enter a title for your events");
+      return;
+    }
+
+    const delay = interval =>
+      new Promise(resolve => setTimeout(resolve, interval));
+
+    for (let i = 0; i < this.state.selectedDays.length; i++) {
+      const day = this.state.selectedDays[i];
+      try {
+        const res = await ApiCalendar.createEvent(
+          this.calculateEvent(day),
+          "primary"
+        );
+        delay(101); // Google API: max 10 requests a second
+        console.log(res);
+        toast("Created calendar event on " + this.formatDate(day));
+      } catch (e) {
+        console.log(e);
+        toast("Failed to create event on " + this.formatDate(day));
+      }
+    }
+  };
+
+  calculateEvent = day => {
     const [start, end] = this.state.selectedShift;
-    this.state.selectedDays.forEach(day => {
-      ApiCalendar.createEvent(
-        {
-          start: {
-            dateTime: this.combineDateAndTime(day, start)
-          },
-          end: {
-            dateTime: this.combineDateAndTime(day, end)
-          },
-          summary: this.state.title,
-          description: this.state.description
-        },
-        "primary"
-      )
-        .then(result => {
-          console.log(result);
-          toast(
-            "Created calendar event on " + this.formatDate(this.formatDate(day))
-          );
-        })
-        .catch(error => {
-          console.log(error);
-          toast("Failed to create event on " + this.formatDate(day));
-        });
-    });
+
+    const startDate = this.combineDateAndTime(day, start);
+    let endDate = this.combineDateAndTime(day, end);
+
+    // shift goes to the next day
+    if (endDate < startDate) {
+      endDate.setDate(endDate.getDate() + 1);
+    }
+    return {
+      start: {
+        dateTime: startDate
+      },
+      end: {
+        dateTime: endDate
+      },
+      summary: this.state.title,
+      description: this.state.description
+    };
   };
 
   /**
@@ -107,7 +128,7 @@ export default class EventCreator extends React.Component {
   };
 
   showShiftEditor = () => {
-    this.setState({ showTimeRange: true });
+    this.setState({ showShiftEditor: true });
   };
 
   /**
@@ -115,7 +136,8 @@ export default class EventCreator extends React.Component {
    * @param {["HH:MM", "HH:MM"]} time
    */
   createShift = selectedShift => {
-    return () => {
+    return e => {
+      e.preventDefault();
       if (
         this.state.shifts.find(
           shift =>
@@ -123,38 +145,42 @@ export default class EventCreator extends React.Component {
         )
       ) {
         toast(`The ${formatShift(selectedShift)} shift already exists`);
-      } else {
-        this.setState({
-          shifts: [...this.state.shifts, selectedShift],
-          selectedShift: selectedShift
-        });
-        toast(`Created the new shift: ${formatShift(selectedShift)}`);
+        return;
       }
+      this.setState({
+        shifts: [...this.state.shifts, selectedShift],
+        selectedShift: selectedShift
+      });
+      toast(`Created the new shift: ${formatShift(selectedShift)}`);
     };
   };
-  deleteShift = selectedShift => {
-    return () => {
-      debugger;
-      const index = this.state.shifts.findIndex(
-        shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
+  deleteShift = () => {
+    debugger;
+    const selectedShift = this.state.selectedShift;
+    const index = this.state.shifts.findIndex(
+      shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
+    );
+    if (index !== -1) {
+      const newShiftList = [
+        ...this.state.shifts.slice(0, index),
+        ...this.state.shifts.slice(index + 1)
+      ];
+      this.setState({
+        shifts: newShiftList,
+        selectedShift: (newShiftList.length && newShiftList[0]) || ""
+      });
+      toast(`Deleted shift ${formatShift(selectedShift)}`);
+    } else {
+      toast(
+        `Shift ${formatShift(
+          selectedShift
+        )} not found! It might already be deleted.`
       );
-      debugger;
-      if (index !== -1) {
-        this.setState({
-          shifts: [
-            ...this.state.shifts.slice(0, index),
-            ...this.state.shifts.slice(index + 1)
-          ]
-        });
-        toast(`Deleted shift ${formatShift(selectedShift)}`);
-      } else {
-        toast(
-          `Shift ${formatShift(
-            selectedShift
-          )} not found! It might already be deleted.`
-        );
-      }
-    };
+    }
+  };
+
+  dropdownChange = e => {
+    this.setState({ selectedShift: JSON.parse(e.target.value) });
   };
   render() {
     return (
@@ -163,60 +189,72 @@ export default class EventCreator extends React.Component {
           selectedDays={this.state.selectedDays}
           onUpdate={this.updateSelectedDays}
         ></Calendar>
-        <div className="user-input">
-          <div>
-            <label>
-              Event Title
-              <input
-                type="text"
-                name="title"
-                onChange={e => this.setState({ title: e.target.value })}
-              ></input>
-            </label>
-          </div>
-          <div>
-            <label>
-              Event Description
-              <textarea
-                name="Title"
-                onChange={e => this.setState({ description: e.target.value })}
-              ></textarea>
-            </label>
-          </div>
-          <div>
-            <Dropdown
-              title="Select shift"
-              list={this.state.shifts}
-              onChange={e =>
-                this.setState({ selectedShift: JSON.parse(e.target.value) })
-              }
-            ></Dropdown>
-            <button className="btn" onClick={this.showShiftEditor}>
-              Manage Shifts
+        <form className="form">
+          <label htmlFor="title">
+            Title<span className="required"> * </span>
+          </label>
+          <input
+            id="title"
+            className="input"
+            required
+            type="text"
+            name="title"
+            onChange={e => this.setState({ title: e.target.value })}
+          ></input>
+          <label htmlFor="description">Description</label>
+          <TextareaAutosize
+            id="description"
+            className="input description"
+            name="description"
+            minRows={3}
+            value={this.state.description}
+            onChange={e => this.setState({ description: e.target.value })}
+          ></TextareaAutosize>
+          <label htmlFor="select-shift">
+            <button
+              id="edit-shifts"
+              className="btn btn--secondary"
+              onClick={this.showShiftEditor}
+            >
+              Edit{" "}
+              <span role="img" aria-hidden="true">
+                ✏️
+              </span>
             </button>
-          </div>
+            Hours
+          </label>
+          <Dropdown
+            id="select-shift"
+            title="Select shift"
+            list={this.state.shifts}
+            value={this.state.selectedShift}
+            onChange={this.dropdownChange}
+          ></Dropdown>
           <ShiftEditor
-            isVisible={this.state.showTimeRange}
+            isVisible={this.state.showShiftEditor}
+            onDropdownChange={this.dropdownChange}
             onCreate={this.createShift}
             onDelete={this.deleteShift}
-            onClose={() => this.setState({ showTimeRange: false })}
+            onClose={() => this.setState({ showShiftEditor: false })}
             shifts={this.state.shifts}
+            selectedShift={this.state.selectedShift}
           ></ShiftEditor>
-          <button className="btn" onClick={this.createEvent}>
+          <button
+            className="btn btn--primary btn--submit"
+            onClick={this.createEvent}
+          >
             Create calendar events!
           </button>
-        </div>
-        <div>
-          <button
-            className="btn"
-            onClick={() => {
-              ApiCalendar.handleSignoutClick();
-              toast("Signed out!");
-            }}
-          >
-            Sign out
-          </button>
-        </div>
+        </form>
+        <button
+          className="btn btn--exit"
+          onClick={() => {
+            ApiCalendar.handleSignoutClick();
+            toast("Signed out!");
+          }}
+        >
+          Sign out
+        </button>
       </>
     );
   }

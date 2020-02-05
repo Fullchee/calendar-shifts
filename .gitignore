@@ -23,3 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 
 calendar-shifts.key
+
+cypress/videos
+cypress/screenshots
+cypress/integration/examples
+cypress/fixtures/example.json

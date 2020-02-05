@@ -1,31 +1,36 @@
+:root {
+  /* colors taken from Google Calendar */
+  --blue: #1a73e8;
+  --faded-blue: #c6dafc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.modal + * {
+  margin-top: 1.5em;
 }
 
 @keyframes App-logo-spin {
@@ -38,13 +43,171 @@
 }
 
 .btn {
+  cursor: pointer;
   padding: 1rem;
   margin: 0.5rem;
   border-radius: 5px;
   background: #eeeeee;
   border: 1px solid #eee;
+  font-size: calc(10px + 2vmin);
 }
 
-.user-input {
-  padding: 20px;
+.form {
+  display: grid;
+  align-items: center;
+  padding: 1em;
+  background: #f9f9f9;
+  max-width: 80vw;
+  min-width: 50vw;
+  justify-content: center;
+  grid-template-columns: 200px 1fr;
+  grid-gap: 16px;
+}
+
+.form label {
+  text-align: right;
+  grid-column: 1 / 2;
+}
+
+.form .input {
+  grid-column: 2 / 3;
+  background: #fff;
+  border: 1px solid #9c9c9c;
+  font-size: calc(10px + 3vmin);
+}
+
+.input:focus {
+  outline: 3px solid gold;
+}
+
+.description {
+  resize: none;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.form button {
+  background: lightgrey;
+  padding: 0.7em;
+  border: none;
+  grid-column: 2 / 3;
+}
+
+.btn:hover {
+  background: gold;
+}
+
+.required {
+  color: red;
+}
+
+.btn.btn--submit {
+  grid-column: 1 / -1;
+}
+
+.btn.btn--primary {
+  background-color: var(--blue, #1a73e8);
+  color: white;
+  padding: 1rem;
+}
+.btn.btn--primary:hover {
+  background-color: #0049b5;
+}
+
+.btn.btn--secondary {
+  background-color: var(--faded-blue);
+  /* color: #827d9d; */
+  padding: 5px;
+}
+
+.hours-dropdown {
+  height: 2.5rem;
+  cursor: pointer;
+}
+
+.btn.btn--exit {
+  order: -1;
+  align-self: flex-end;
+}
+
+.btn.btn--exit:hover {
+  background-color: #b00020;
+  color: white;
+}
+
+.btn.btn--delete {
+  background-color: #b00020;
+  color: white;
+}
+
+.btn.btn--delete:hover {
+  background-color: #790000;
+}
+
+.form .btn--delete {
+  grid-column: 1 / 2;
+}
+
+.cancel-create {
+  grid-column: 2 / 3;
+  display: flex;
+  margin-left: 10%;
+}
+
+.btn--close {
+  flex: 1;
+}
+
+.btn--create {
+  flex: 4;
+}
+
+.range-picker {
+  width: 100%;
+}
+
+@media only screen and (max-width: 950px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+  .form .input {
+    grid-column: 1 / 2;
+
+    max-width: 70vw;
+  }
+  .form label {
+    text-align: left;
+  }
+  .cancel-create {
+    grid-column: 1 / 2;
+    margin-left: 0;
+  }
+  .react-timerange-picker .react-timerange-picker__wrapper {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    border: none;
+    background: #eee;
+    padding: 20px;
+  }
+}
+
+.react-timerange-picker__inputGroup > input,
+.react-timerange-picker__inputGroup > span,
+.react-timerange-picker__inputGroup > select,
+.react-timerange-picker__inputGroup + span {
+  font-size: 2em;
+}
+
+.react-timerange-picker__inputGroup__hour {
+  width: 60px !important;
+  text-align: right;
+}
+
+.react-timerange-picker__inputGroup__minute {
+  width: 60px !important;
+}
+
+.DayPicker-Weekday abbr {
+  /* lightest grey that's accessible on white */
+  color: #767676;
 }
