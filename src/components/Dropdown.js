@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import formatShift from "./formatShift";
 export default class Dropdown extends React.Component {
   render() {
@@ -22,3 +23,8 @@ export default class Dropdown extends React.Component {
     );
   }
 }
+
+Dropdown.propTypes = {
+  list: PropTypes.array,
+  onChange: PropTypes.func
+};
