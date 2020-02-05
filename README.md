@@ -6,6 +6,8 @@ When you get your next month's schedule and you need to quickly add it to your c
 
 ## How to use
 
+![](calendar-shifts.gif)
+
 1. Login
 2. Select the days you have that shift.
 3. Create a title and a description for your calendar events
