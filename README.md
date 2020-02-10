@@ -40,11 +40,11 @@ yarn start
 ## TODOs
 
 - CircleCI and cypress
-- Husky and git hooks
 - Read google calendar events (search for a specific name)
   - if it finds it, add some UI change to the React Calendar UI
 - Created # calendar events toast
 - Tutorial on first load
+- How to test if the Google API req worked?
 
 ## Lessons learned
 
