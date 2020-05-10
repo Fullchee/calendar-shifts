@@ -223,6 +223,7 @@
   justify-self: end;
   grid-column: 2 / 2;
   position: relative;
+  font-size: 2rem;
 }
 
 .close-modal:hover {
@@ -231,6 +232,6 @@
 
 .close-modal-content {
   position: absolute;
-  top: -18px;
-  left: 11px;
+  top: -38px;
+  left: 9px;
 }
