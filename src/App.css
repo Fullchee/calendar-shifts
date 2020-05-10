@@ -124,6 +124,10 @@
   cursor: pointer;
 }
 
+#modal-shift-select {
+  grid-column: 2 / 2;
+}
+
 .btn.btn--exit {
   order: -1;
   align-self: flex-end;
@@ -144,13 +148,7 @@
 }
 
 .form .btn--delete {
-  grid-column: 1 / 2;
-}
-
-.cancel-create {
-  grid-column: 2 / 3;
-  display: flex;
-  margin-left: 10%;
+  grid-column: 2 / 2;
 }
 
 .btn--close {
@@ -169,17 +167,16 @@
   .form {
     grid-template-columns: 1fr;
   }
-  .form .input {
-    grid-column: 1 / 2;
+  .form .input,
+  .form .btn--delete,
+  .btn.btn--create,
+  .react-timerange-picker {
+    grid-column: 1 / 3;
 
     max-width: 70vw;
   }
   .form label {
     text-align: left;
-  }
-  .cancel-create {
-    grid-column: 1 / 2;
-    margin-left: 0;
   }
   .react-timerange-picker .react-timerange-picker__wrapper {
     flex-direction: column;
@@ -210,4 +207,30 @@
 .DayPicker-Weekday abbr {
   /* lightest grey that's accessible on white */
   color: #767676;
+}
+
+.optional {
+  margin-top: 0px;
+  font-size: 0.65em;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.close-modal {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  margin: 0px;
+  justify-self: end;
+  grid-column: 2 / 2;
+  position: relative;
+}
+
+.close-modal:hover {
+  color: #1972e8;
+}
+
+.close-modal-content {
+  position: absolute;
+  top: -18px;
+  left: 11px;
 }

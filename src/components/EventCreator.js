@@ -20,7 +20,7 @@ export default class EventCreator extends React.Component {
       selectedShift: DEFAULT_SHIFT,
       showShiftEditor: false,
       title: "",
-      description: ""
+      description: "",
     };
   }
 
@@ -31,11 +31,11 @@ export default class EventCreator extends React.Component {
       });
   };
 
-  updateSelectedDays = selectedDays => {
+  updateSelectedDays = (selectedDays) => {
     this.setState({ selectedDays });
   };
 
-  createEvent = async e => {
+  createEvent = async (e) => {
     e.preventDefault();
     if (!this.state.selectedShift) {
       toast("Make sure to select a shift");
@@ -50,8 +50,8 @@ export default class EventCreator extends React.Component {
       return;
     }
 
-    const delay = interval =>
-      new Promise(resolve => setTimeout(resolve, interval));
+    const delay = (interval) =>
+      new Promise((resolve) => setTimeout(resolve, interval));
 
     for (let i = 0; i < this.state.selectedDays.length; i++) {
       const day = this.state.selectedDays[i];
@@ -70,7 +70,7 @@ export default class EventCreator extends React.Component {
     }
   };
 
-  calculateEvent = day => {
+  calculateEvent = (day) => {
     const [start, end] = this.state.selectedShift;
 
     const startDate = this.combineDateAndTime(day, start);
@@ -82,13 +82,13 @@ export default class EventCreator extends React.Component {
     }
     return {
       start: {
-        dateTime: startDate
+        dateTime: startDate,
       },
       end: {
-        dateTime: endDate
+        dateTime: endDate,
       },
       summary: this.state.title,
-      description: this.state.description
+      description: this.state.description,
     };
   };
 
@@ -106,7 +106,7 @@ export default class EventCreator extends React.Component {
     return newDate;
   };
 
-  formatDate = timestamp => {
+  formatDate = (timestamp) => {
     const date = new Date(timestamp);
     var months = [
       "Jan",
@@ -120,7 +120,7 @@ export default class EventCreator extends React.Component {
       "Sept",
       "Oct",
       "Nov",
-      "Dec"
+      "Dec",
     ];
     return (
       months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear()
@@ -135,12 +135,12 @@ export default class EventCreator extends React.Component {
    * Currying: time is provided by the bottom TimePicker component
    * @param {["HH:MM", "HH:MM"]} time
    */
-  createShift = selectedShift => {
-    return e => {
+  createShift = (selectedShift) => {
+    return (e) => {
       e.preventDefault();
       if (
         this.state.shifts.find(
-          shift =>
+          (shift) =>
             shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
         )
       ) {
@@ -149,7 +149,7 @@ export default class EventCreator extends React.Component {
       }
       this.setState({
         shifts: [...this.state.shifts, selectedShift],
-        selectedShift: selectedShift
+        selectedShift: selectedShift,
       });
       toast(`Created the new shift: ${formatShift(selectedShift)}`);
     };
@@ -158,16 +158,16 @@ export default class EventCreator extends React.Component {
     debugger;
     const selectedShift = this.state.selectedShift;
     const index = this.state.shifts.findIndex(
-      shift => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
+      (shift) => shift[0] === selectedShift[0] && shift[1] === selectedShift[1]
     );
     if (index !== -1) {
       const newShiftList = [
         ...this.state.shifts.slice(0, index),
-        ...this.state.shifts.slice(index + 1)
+        ...this.state.shifts.slice(index + 1),
       ];
       this.setState({
         shifts: newShiftList,
-        selectedShift: (newShiftList.length && newShiftList[0]) || ""
+        selectedShift: (newShiftList.length && newShiftList[0]) || "",
       });
       toast(`Deleted shift ${formatShift(selectedShift)}`);
     } else {
@@ -179,7 +179,7 @@ export default class EventCreator extends React.Component {
     }
   };
 
-  dropdownChange = e => {
+  dropdownChange = (e) => {
     this.setState({ selectedShift: JSON.parse(e.target.value) });
   };
   render() {
@@ -190,25 +190,25 @@ export default class EventCreator extends React.Component {
           onUpdate={this.updateSelectedDays}
         ></Calendar>
         <form className="form">
-          <label htmlFor="title">
-            Title<span className="required"> * </span>
-          </label>
+          <label htmlFor="title">Title</label>
           <input
             id="title"
             className="input"
             required
             type="text"
             name="title"
-            onChange={e => this.setState({ title: e.target.value })}
+            onChange={(e) => this.setState({ title: e.target.value })}
           ></input>
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">
+            Description <p className="optional">(optional)</p>
+          </label>
           <TextareaAutosize
             id="description"
             className="input description"
             name="description"
             minRows={3}
             value={this.state.description}
-            onChange={e => this.setState({ description: e.target.value })}
+            onChange={(e) => this.setState({ description: e.target.value })}
           ></TextareaAutosize>
           <label htmlFor="select-shift">
             <button
