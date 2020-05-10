@@ -151,10 +151,6 @@
   grid-column: 2 / 2;
 }
 
-.btn--close {
-  flex: 1;
-}
-
 .btn--create {
   flex: 4;
 }
@@ -215,7 +211,7 @@
   color: rgba(0, 0, 0, 0.5);
 }
 
-.close-modal {
+.btn--close {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -226,11 +222,11 @@
   font-size: 2rem;
 }
 
-.close-modal:hover {
+.btn--close:hover {
   color: #1972e8;
 }
 
-.close-modal-content {
+.btn--close--content {
   position: absolute;
   top: -38px;
   left: 9px;

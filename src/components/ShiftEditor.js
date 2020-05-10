@@ -54,8 +54,8 @@ export default class ShiftEditor extends React.Component {
       <Modal isOpen={this.props.isVisible} onRequestClose={this.props.onClose}>
         <div className="modal">
           <form className="form">
-            <div className="btn close-modal" onClick={this.props.onClose}>
-              <p className="close-modal-content">x</p>
+            <div className="btn btn--close" onClick={this.props.onClose}>
+              <p className="btn--close--content">x</p>
             </div>
             <label htmlFor="range-picker">Create shift</label>
             <TimeRangePicker
